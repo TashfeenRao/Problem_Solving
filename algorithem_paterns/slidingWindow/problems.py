@@ -86,3 +86,60 @@ def longest_contiguous_substring(arr='araaci', k=2):
 
 
 print(longest_contiguous_substring())
+
+# Given an array of characters where each character represents a fruit tree,
+# you are given two baskets and your goal is to put maximum number of fruits in each basket.
+# The only restriction is that each basket can have only one type of fruit.
+# You can start with any tree, but once you have started you can’t skip a tree.
+# You will pick one fruit from each tree until you cannot, i.e.,
+# you will stop when you have to pick from a third fruit type.
+# Input: Fruit = ['A', 'B', 'C', 'A', 'C']
+# Output: 3
+# Explanation: We can put 2 'C' in one basket and one 'A' in the other from the subarray
+# ['C', 'A', 'C']
+
+def max_fruit_each_basket(str=['A', 'B', 'C', 'A', 'C']):
+    frequency = {}
+    window_start = 0
+    max_length = 0
+    for window_end in range(len(str)):
+        right_char = str[window_end]
+        if right_char not in frequency:
+            frequency[right_char] = 0
+        frequency[right_char] += 1
+        while len(frequency) > 2:
+            left_char = str[window_start]
+            frequency[left_char] -= 1
+            if frequency[left_char] == 0:
+                del frequency[left_char]
+            window_start += 1
+        max_length = max(max_length, window_end-window_start+1)
+    return max_length
+    
+    
+print(max_fruit_each_basket())
+
+
+
+
+# Given a string, find the length of the longest substring which has no repeating characters.
+# Input: String="aabccbb"
+# Output: 3
+# Explanation: The longest substring without any repeating characters is "abc".
+
+
+def longest_substring_length(str='aabccbb'):
+    max_length = 0
+    window_start = 0
+    frequency = {}
+    for window_end in range(len(str)):
+        right_char = str[window_end]
+        
+        if right_char in frequency:
+            window_start = max(window_start,frequency[right_char]+1)
+        
+        frequency[right_char] = window_end
+        max_length = max(max_length, window_end - window_start+1)
+    return max_length
+
+print(longest_substring_length())
